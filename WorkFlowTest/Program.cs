@@ -8,10 +8,7 @@ namespace WorkFlowTest
     {
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
-                .AddSingleton<ICalculatorService, CalculatorService>()
-                .BuildServiceProvider();
-
+            var serviceProvider = Startup.Configure();
             var service = serviceProvider.GetService<ICalculatorService>();
 
             service.EnterValues();
