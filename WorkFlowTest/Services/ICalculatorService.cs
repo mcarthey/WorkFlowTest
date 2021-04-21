@@ -2,6 +2,7 @@ namespace WorkFlowTest.Services
 {
     public interface ICalculatorService
     {
-        int Add(int x, int y);
+        int Add(int x = 0, int y = 0);
+        void EnterValues();
     }
 }

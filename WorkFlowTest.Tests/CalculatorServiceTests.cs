@@ -23,7 +23,7 @@ namespace WorkFlowTest.Tests
 
             var response = service.Add(1, 3);
 
-            Assert.Equal(3, response);
+            Assert.NotEqual(3, response);
         }        
     }
 }
