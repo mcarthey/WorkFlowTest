@@ -1,5 +1,6 @@
 ﻿using System;
 using NLog;
+using NLog.Web;
 using WorkFlowTest.DI;
 
 namespace WorkFlowTest
@@ -11,19 +12,20 @@ namespace WorkFlowTest
 
         private static void Main(string[] args)
         {
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                LogManager.GetCurrentClassLogger().Info("<Starting WorkFlowTest Application>");
+                logger.Info("<Starting WorkFlowTest Application>");
 
                 var service = new ApplicationBuilder().Build();
                 service.Invoke().GetAwaiter().GetResult();
-                LogManager.GetCurrentClassLogger().Info("<Finishing WorkFlowTest Application>");
+                logger.Info("<Finishing WorkFlowTest Application>");
                 Environment.Exit(SuccessExitCode);
             }
             catch (Exception e)
             {
                 System.Console.Error.WriteLine(e);
-                LogManager.GetCurrentClassLogger().Error(e);
+                logger.Error(e);
             }
             Environment.Exit(ErrorExitCode);
         }
