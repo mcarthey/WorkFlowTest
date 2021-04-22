@@ -1,20 +1,32 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using WorkFlowTest.Services;
+using NLog;
+using WorkFlowTest.DI;
 
 namespace WorkFlowTest
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public const int ErrorExitCode = 1;
+        public const int SuccessExitCode = 0;
+
+        private static void Main(string[] args)
         {
-            var serviceProvider = Startup.Configure();
-            var service = serviceProvider.GetService<ICalculatorService>();
+            try
+            {
+                LogManager.GetCurrentClassLogger().Info("<Starting WorkFlowTest Application>");
 
-            service.EnterValues();
-            var answer = service.Add();
-
-            System.Console.WriteLine($"Your answer is: {answer}");
+                var service = new ApplicationBuilder().Build();
+                service.Invoke().GetAwaiter().GetResult();
+                LogManager.GetCurrentClassLogger().Info("<Finishing WorkFlowTest Application>");
+                Environment.Exit(SuccessExitCode);
+            }
+            catch (Exception e)
+            {
+                System.Console.Error.WriteLine(e);
+                LogManager.GetCurrentClassLogger().Error(e);
+            }
+            Environment.Exit(ErrorExitCode);
         }
     }
+
 }
