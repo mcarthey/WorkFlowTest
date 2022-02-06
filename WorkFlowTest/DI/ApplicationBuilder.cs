@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using WorkFlowTest.Utils;
 
 namespace WorkFlowTest.DI
 {
@@ -23,6 +24,8 @@ namespace WorkFlowTest.DI
 
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<ICalculatorService, CalculatorService>()
+                .AddSingleton<ISystemDate, SystemDate>()
+                .AddSingleton<IStringInterpolationService, StringInterpolationService>()
                 .AddSingleton<IMainService, MainService>()
                 .AddLogging(loggingBuilder =>
                 {
